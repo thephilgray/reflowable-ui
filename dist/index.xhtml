@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xhtml>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en-US" lang="en-US">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Reflowable UI Examples: Quiz Modules</title>
+    <link type="text/css" href="./styles.css" rel="stylesheet" />
+</head>
+
+<body id="page001">
+    <section class="page" epub:type="bodymatter">
+        <header>
+            <h1>Quiz Modules</h1>
+        </header>
+        <section>
+            <div class="exercise" data-answer="My name is Paul" data-key="question-1" data-type="write-in">
+                <div class="exercise__instructions">
+                    <p>Translate the sentence.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__audio"></div>
+                    <div class="exercise__audioIcon"></div>
+                    <p class="exercise__text">Je m'appelle Paul</p>
+                </div>
+                <div class="exercise__inputArea">
+                    <textarea data-input="true" placeholder="type the English translation" rows="3"
+                        cols="15"></textarea>
+                </div>
+                <button data-validate="true">check</button>
+            </div>
+            <div class="exercise" data-answer="0,1,2" data-key="question-2" data-type="select-many">
+                <div class="exercise__instructions">
+                    <p>Select one or more.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__text">
+                        Which of the following are animals?
+                    </div>
+                </div>
+                <div class="exercise__inputArea">
+                    <button data-input="true">un cheval</button><button data-input="true">un lapin</button><button
+                        data-input="true">un chat</button><button data-input="true">le monde</button>
+                </div>
+                <button data-validate="true">check</button>
+            </div>
+            <div class="exercise" data-answer="0" data-key="question-3" data-type="select-one">
+                <div class="exercise__instructions">
+                    <p>True or false.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__text">Français means French.</div>
+                </div>
+                <div class="exercise__inputArea">
+                    <button data-input="true">true</button><button data-input="true">false</button>
+                </div>
+                <button data-validate="true">check</button>
+            </div>
+            <div class="exercise" data-answer="0,2,1,7,3,5,4,6" data-key="question-4" data-type="match-pairs">
+                <div class="exercise__instructions">
+                    <p>Matching.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__text">Select the matching pairs.</div>
+                </div>
+                <div class="exercise__previewArea">
+                    <span data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
+                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
+                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
+                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span>
+                </div>
+                <div class="exercise__inputArea">
+                    <button data-input="true">bye</button><button data-input="true">he</button><button
+                        data-input="true">salut</button><button data-input="true">well</button><button
+                        data-input="true">Espagne</button><button data-input="true">bien</button><button
+                        data-input="true">Spain</button><button data-input="true">il</button>
+                </div>
+                <button data-validate="true">check</button>
+            </div>
+            <div class="exercise" data-answer="0,3,2,1" data-key="question-5" data-type="word-order">
+                <div class="exercise__instructions">
+                    <p>Fill in the blank.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__text">What do you do in your free time?</div>
+                </div>
+                <div class="exercise__previewArea">
+                    <p>
+                        <span>Qu’est-ce que </span><span data-preview-slot="true">_____</span><span> aimez </span><span
+                            data-preview-slot="true">_____</span><span> pendant </span><span
+                            data-preview-slot="true">_____</span><span> temps </span><span
+                            data-preview-slot="true">_____</span><span>?</span>
+                    </p>
+                </div>
+                <div class="exercise__inputArea">
+                    <button data-input="true">vous</button><button data-input="true">libre</button><button
+                        data-input="true">votre</button><button data-input="true">faire</button>
+                </div>
+                <button data-validate="true">check</button>
+            </div>
+            <div class="toolbar">
+                <p>
+                    Score: <span data-total-correct="true">0 </span> of
+                    <span data-total-questions="true">0</span>
+                </p>
+                <button data-validate-all="true">check all</button><button data-save="true">save all</button><button
+                    data-reset="true">reset all</button>
+            </div>
+        </section>
+    </section>
+    <script src="./index.js" />
+    <script>
+        (function ready() {
+            /**
+             *
+             * Example usage
+             *
+             */
+
+            var selector = "[data-type]"; // group modules by class name and use this as the selector for multiple quizzes
+            var storageKey = "epub-quiz-modules-quiz-1";
+            var quiz = new ReflowableUI.Quiz(selector);
+            var score = quiz.useScore(updateScores);
+            var store = quiz.useStorage(storageKey, onReadyStorage);
+
+            function updateScores(scoreData, context) {
+                var dataTotalCorrectEl = document.querySelector("[data-total-correct]");
+                var dataTotalQuestionsEl = document.querySelector("[data-total-questions]");
+                dataTotalQuestionsEl.textContent = scoreData.totalQuestions;
+                dataTotalCorrectEl.textContent = scoreData.totalCorrect;
+                // save automatically
+                // if (store) {
+                //   store.saveAll();
+                // }
+            }
+
+            function onReadyStorage(storage) {
+                var resetAllButton = document.querySelector("[data-reset]");
+                var saveAllButton = document.querySelector("[data-save]");
+                resetAllButton.addEventListener("click", storage.resetAll.bind(storage));
+                saveAllButton.addEventListener("click", storage.saveAll.bind(storage));
+
+                storage.loadAll();
+            }
+            var validateAllButton = document.querySelector("[data-validate-all]");
+            validateAllButton.addEventListener("click", quiz.validateAll.bind(quiz));
+        })();
+
+    </script>
+</body>
+
+</html>

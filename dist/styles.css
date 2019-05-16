@@ -1,0 +1,577 @@
+@charset "UTF-8";
+/*  blitz — CSS framework for reflowable eBooks      
+    Version 1.2.0 by Jiminy Panoz                      
+    Codename: Kola Kola                             
+    License: MIT (https://opensource.org/licenses/MIT)   */
+/* NAMESPACES */
+@namespace h 'http://www.w3.org/1999/xhtml/';
+
+@namespace epub 'http://www.idpf.org/2007/ops';
+/* if you need to style epub:type */
+@namespace m 'http://www.w3.org/1998/Math/MathML/';
+/* if you need to style MathML */
+@namespace svg 'http://www.w3.org/2000/svg';
+/* if you need to style SVG */
+html {
+  /* Don't use it for styling, used as selector which can take a punch if anything goes wrong above */
+}
+/* Begin CSS */
+/* RESET */
+/* So here's the trick, we must reset to manage a number of problems once and for all: 
+- HTML5 backwards compatibility (EPUB 3 file in EPUB 2 app); 
+- user settings (e.g. line-height on Kobo and Kindle); 
+- CSS bloat (DRY); 
+- KFX for which a reset using `border: 0` seems to disable support; 
+- etc.
+It all started as a normalize and became a reset given the magnitude of the task.                                                          
+*/
+    canvas,
+div,
+figcaption,
+h1,
+header,
+main,
+nav,
+p,
+section {
+  margin: 0;
+    padding: 0;
+  /* RS may apply vertical padding to el such as p */
+    font-size: 1em;
+  /* Font size in pixel disable the user setting in legacy RMSDK */
+    line-height: inherit;
+  /* Kindle ignores it, Kobo needs it. If you don’t use inherit, the user setting may be disabled on some Kobo devices */
+    text-indent: 0;
+    font-style: normal;
+    font-weight: normal;
+}
+/* This is absolutely necessary for backwards compatibility */
+
+figcaption,
+header,
+main,
+nav,
+section {
+    display: block;
+}
+
+[hidden] {
+    display: none;
+}
+/* [Opinionated] Default to prevent RS from justifying all of these! */
+h1 {
+    text-align: left;
+}
+/* Following EPUB 3 spec by the letter (applies to RS but let’s make sure it is respected because we never know) */
+/* [Opinionated] Default to prevent bloat in case linear="no" is rendered as linear="yes" */
+nav[epub|type~="landmarks"],
+nav[epub|type~="page-list"] {
+    display: none;
+}
+
+dfn,
+ins,
+span,
+strong,
+time {
+    font-size: inherit;
+    vertical-align: baseline;
+    font-style: inherit;
+  /* Taking nesting of inline elements into account (e.g. sup nested in em) */
+    font-weight: inherit;
+  /* Taking nestiog of inline elements into account (e.g. em nested in strong) */
+    color: inherit;
+    text-decoration: none;
+}
+/* Trying to prevent blank page if element with margin-bottom at the end of xhtml */
+body > :last-child,
+body > section > :last-child {
+    margin-bottom: 0;
+}
+/* PAGE LAYOUT */
+@page {
+    margin: 30px 30px 20px 30px;
+  /* Recommended by Barnes & Noble in this old spec: https://simg1.imagesbn.com/pimages/pubit/support/pubit_epub_formatting_guide.pdf */
+  padding: 0;
+}
+
+body {
+    font-size: 100%;
+    line-height: 1.5;
+    margin: 0;
+  /* RS will override margins anyways */
+    padding: 0;
+    widows: 2;
+  /* iBooks and Kobo support widows and orphans */
+    orphans: 2;
+}
+/* TYPOGRAPHY */
+h1,
+caption {
+    adobe-hyphenate: none;
+  /* proprietary for Legacy RMSDK */
+    -ms-hyphens: none;
+    -webkit-hyphens: none;
+    -epub-hyphens: none;
+    hyphens: none;
+}
+
+h1 {
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: avoid;
+    -webkit-column-break-after: avoid;
+    break-after: avoid;
+}
+
+h1 {
+    font-size: 1.4375em;
+    line-height: 1.04347826;
+    margin-top: 0em;
+    margin-bottom: 2.08695652em;
+}
+
+p {
+    text-indent: 1em;
+}
+/* MICRO TYPOGRAPHY */
+
+dfn {
+    font-style: italic;
+}
+/* Get back to normal when italic nested in italic */
+
+dfn dfn {
+    font-style: normal;
+}
+
+strong {
+    font-weight: bold;
+}
+
+ins {
+  /* Styles */
+}
+/* Styling is improved to prevent sub from affecting line-height */
+/* Styling is improved to prevent sup from affecting line-height */
+/* FIGURES + IMAGES  */
+figcaption {
+    font-size: 0.9375em;
+    line-height: 1.6;
+    text-indent: 0;
+}
+/* Note: portrait image styling + figcaption is a nightmare */
+/* See https://github.com/jstallent/ImagesSingleFile for the css hack */
+/* LISTS */
+/* DEFINITION LISTS */
+/* HORIZONTAL RULES — CONTEXT BREAKS */
+/* Blank-line context change */
+/* Over-engineered asterism with an SVG background 
+which is legacy RMSDK-compliant, reflows with text and 
+is night-mode compatible (black asterisk + white border) */
+/* TABLES */
+caption {
+    caption-side: top;
+  /* Note: only value legacy RMSDK supports */
+    text-align: center;
+    font-weight: bold;
+}
+/* CODE */
+/* MEDIAS */
+canvas,
+svg {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+svg {
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+/* CONTAINERS — WRAPPERS */
+/* Widths */
+/* Heights */
+@supports (height: 100vh) {
+  /* Can be used for containers and images 
+     but Should be used in combination with .portrait if used for img */
+}
+/* Floats */
+/* If there are too many floating elements in a XHTML file, 
+performance of legacy RMSDK takes a huge hit (± 4 seconds to 
+render page on eInk devices)                                    */
+/* UTILITIES */
+/* Display */
+/* May be useful for EPUB 3.1, warning .absolute in ePubCheck in EPUB 3.0.1
+.relative {
+  position: relative;   
+}
+
+.absolute {
+  position: absolute;   
+}   
+*/
+/* Clearings */
+/* Bordered content */
+/* Margins */
+/* Font-stacks */
+/* We try to rely on RS’ typefaces, hence the huge font-stack */
+/* We try to rely on RS’ typefaces, hence the huge font-stack */
+/* We try to rely on RS’ typefaces, hence the huge font-stack */
+/* We try to rely on RS’ typefaces, hence the huge font-stack */
+/* Text align */
+/* Indents */
+/* Font sizes */
+/* Font styles */
+/* Misc */
+/* PAGE BREAKS */
+/* For some reason, after has better support than before (Google, Kobo, etc.) */
+/* Let’s pretend it is supported (legacy RMSDK does, others not so much) */
+/* Let’s pretend it is supported (legacy RMSDK does, others not so much) */
+/* This one works in iBooks, useful for figure or to keep 2 elements together */
+/*** MEDIA QUERIES ***/
+/* Unfortunately, since support is problematic because of columns, we must target devices if needed */
+/* iPhone < 6s + iPad landscape */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px), (min-device-width : 320px) and (max-device-width : 568px), (min-device-width : 375px) and (max-device-width : 667px), (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape), amzn-kf8 and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+  /* Styles */
+}
+/* iPhone 6(s)+ */
+@media only screen and (min-device-width : 414px) and (max-device-width : 736px) {
+  /* Styles */
+}
+/* Large screens | desktop */
+@media only screen and (min-width : 65em) {
+  /* Styles */
+}
+
+@media only screen and (device-aspect-ratio:16/9) {
+  /* Styles */
+}
+
+@media only screen and (device-aspect-ratio:16/10), amzn-kf8 and (device-aspect-ratio:1280/800) {
+  /* Styles */
+}
+/* eInk */
+@media only screen and (device-height: 1448px) and (device-width: 1072px), (device-height: 1072px) and (device-width: 1448px), (device-height:1024px) and (device-width: 758px), (device-height:758px) and (device-width: 1024px), (device-height: 800px) and (device-width: 600px), (device-height:600px) and (device-width: 800px), amzn-kf8 and (device-height: 1448px) and (device-width: 1072px), amzn-kf8 and (device-height: 1072px) and (device-width: 1448px), amzn-kf8 and (device-height:1024px) and (device-width: 758px), amzn-kf8 and (device-height:758px) and (device-width: 1024px), amzn-kf8 and (device-height: 800px) and (device-width: 600px), amzn-kf8 and (device-height:600px) and (device-width: 800px) {
+  /* Styles */
+}
+/* End CSS */
+/* reset */
+html {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+/* utilities */
+/* cover */
+.sr-only {
+    font-size: 0;
+}
+/**
+ *
+ * custom styles
+ *
+ */
+.exercise {
+    display: block;
+    position: relative;
+    padding: 0.75em 0.75em 0.375em;
+    margin: 0.75em 0;
+    width: 100%;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    background: #e7ebf0;
+}
+
+@supports (display: flex) {
+    .exercise {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+}
+
+.exercise p {
+    text-indent: 0;
+}
+
+.exercise textarea,
+.exercise input[type='text'] {
+    width: 100%;
+}
+
+.exercise__inputArea {
+    width: 100%;
+    margin: 0.375em auto;
+}
+
+@supports (display: flex) {
+    .exercise__inputArea {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+}
+
+.exercise__previewArea {
+    width: 100%;
+    margin: 0.375em auto;
+    padding: 0.75em;
+    adobe-hyphenate: none;
+  /* proprietary for Legacy RMSDK */
+    -ms-hyphens: none;
+    -webkit-hyphens: none;
+    -epub-hyphens: none;
+    hyphens: none;
+    text-indent: 0;
+  /* Necessary as RS may define text-indent for p */
+    text-align: center;
+}
+
+@supports (display: flex) {
+    .exercise__previewArea {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+    }
+}
+
+.exercise__previewArea [data-preview-slot] {
+    background: #fff;
+    padding: 0 0.375em;
+    margin-right: 0.375em;
+    margin-bottom: 0.375em;
+}
+
+.exercise__previewArea [data-preview-slot] + [data-preview-slot] {
+    margin-right: 0.25em;
+}
+
+[data-type='match-pairs'] .exercise__previewArea [data-preview-slot]:nth-of-type(2n-2) {
+    margin-right: 0.75em;
+    margin-left: 0;
+}
+
+.exercise__prompt {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0.75em 0;
+}
+
+.exercise__instructions {
+    width: 100%;
+}
+
+.exercise__audioIcon {
+    height: 1.5em;
+    width: 1.5em;
+    margin-right: 0.75em;
+    padding: 0.75em;
+    cursor: pointer;
+    -webkit-box-shadow: 2px 3px 2px 2px #00f;
+    box-shadow: 2px 3px 2px 2px #00f;
+    background-repeat: no-repeat;
+    background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='volume-up' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512' class='svg-inline--fa fa-volume-up fa-w-18 fa-5x'%3E%3Cpath fill='currentColor' d='M215.03 71.05L126.06 160H24c-13.26 0-24 10.74-24 24v144c0 13.25 10.74 24 24 24h102.06l88.97 88.95c15.03 15.03 40.97 4.47 40.97-16.97V88.02c0-21.46-25.96-31.98-40.97-16.97zm233.32-51.08c-11.17-7.33-26.18-4.24-33.51 6.95-7.34 11.17-4.22 26.18 6.95 33.51 66.27 43.49 105.82 116.6 105.82 195.58 0 78.98-39.55 152.09-105.82 195.58-11.17 7.32-14.29 22.34-6.95 33.5 7.04 10.71 21.93 14.56 33.51 6.95C528.27 439.58 576 351.33 576 256S528.27 72.43 448.35 19.97zM480 256c0-63.53-32.06-121.94-85.77-156.24-11.19-7.14-26.03-3.82-33.12 7.46s-3.78 26.21 7.41 33.36C408.27 165.97 432 209.11 432 256s-23.73 90.03-63.48 115.42c-11.19 7.14-14.5 22.07-7.41 33.36 6.51 10.36 21.12 15.14 33.12 7.46C447.94 377.94 480 319.54 480 256zm-141.77-76.87c-11.58-6.33-26.19-2.16-32.61 9.45-6.39 11.61-2.16 26.2 9.45 32.61C327.98 228.28 336 241.63 336 256c0 14.38-8.02 27.72-20.92 34.81-11.61 6.41-15.84 21-9.45 32.61 6.43 11.66 21.05 15.8 32.61 9.45 28.23-15.55 45.77-45 45.77-76.88s-17.54-61.32-45.78-76.86z' class=''%3E%3C/path%3E%3C/svg%3E");
+    background-size: 80%;
+    background-position: center center;
+}
+
+.exercise button {
+    padding: 0.5em 1em;
+    background: #eee;
+    color: #333;
+    margin: 0.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-box-shadow: 2px 3px 2px 2px #00f;
+    box-shadow: 2px 3px 2px 2px #00f;
+    cursor: pointer;
+}
+
+.exercise button[disabled] {
+    color: #999;
+    cursor: default;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.exercise button[data-touched='true'] {
+    color: #000;
+    -webkit-box-shadow: 1px 2px 1px 1px #0f0;
+    box-shadow: 1px 2px 1px 1px #0f0;
+}
+
+.exercise button[data-validate] {
+    width: 100%;
+    padding: 0.75em 0;
+    margin: 0.75em 0;
+}
+
+.exercise[data-correct='true']:before {
+    content: '';
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    height: 2em;
+    width: 2em;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%231b741b' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
+    background-size: contain;
+}
+
+.exercise[data-correct='true'] button[data-validate] {
+    background: #090;
+    color: #fff;
+}
+
+.exercise[data-correct='false']:before {
+    content: '';
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    height: 2em;
+    width: 2em;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%23F00' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z'/%3E%3C/svg%3E");
+    background-size: contain;
+}
+
+.exercise[data-correct='false'] button[data-validate] {
+    background: #e00;
+    color: #fff;
+}
+
+.toolbar {
+    display: block;
+    position: relative;
+    padding: 0.75em 0.75em 0.375em;
+    margin: 0.75em 0;
+    width: 100%;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    break-inside: avoid;
+    background: #e7ebf0;
+}
+
+@supports (display: flex) {
+    .toolbar {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+}
+
+.toolbar p {
+    text-indent: 0;
+}
+
+.toolbar textarea,
+.toolbar input[type='text'] {
+    width: 100%;
+}
+
+.toolbar button {
+    padding: 0.5em 1em;
+    background: #eee;
+    color: #333;
+    margin: 0.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-box-shadow: 2px 3px 2px 2px #00f;
+    box-shadow: 2px 3px 2px 2px #00f;
+    cursor: pointer;
+}
+
+.toolbar button[disabled] {
+    color: #999;
+    cursor: default;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.toolbar button[data-touched='true'] {
+    color: #000;
+    -webkit-box-shadow: 1px 2px 1px 1px #0f0;
+    box-shadow: 1px 2px 1px 1px #0f0;
+}
+
+.toolbar button[data-validate] {
+    width: 100%;
+    padding: 0.75em 0;
+    margin: 0.75em 0;
+}
+
+.toolbar[data-correct='true']:before {
+    content: '';
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    height: 2em;
+    width: 2em;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%231b741b' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
+    background-size: contain;
+}
+
+.toolbar[data-correct='true'] button[data-validate] {
+    background: #090;
+    color: #fff;
+}
+
+.toolbar[data-correct='false']:before {
+    content: '';
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    height: 2em;
+    width: 2em;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%23F00' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z'/%3E%3C/svg%3E");
+    background-size: contain;
+}
+
+.toolbar[data-correct='false'] button[data-validate] {
+    background: #e00;
+    color: #fff;
+}
