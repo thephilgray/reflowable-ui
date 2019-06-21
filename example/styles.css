@@ -321,6 +321,15 @@ html {
     margin: 0.375em auto;
 }
 
+.exercise__buttonGroup{
+    width: 100%;
+    display: flex;
+}
+
+.exercise__buttonGroup [data-control="true"]{
+    margin-left: 0.375em;
+}
+
 @supports (display: flex) {
     .exercise__inputArea {
         display: -webkit-box;
@@ -335,6 +344,7 @@ html {
         -ms-flex-pack: center;
         justify-content: center;
     }
+
 }
 
 .exercise__previewArea {
@@ -430,7 +440,7 @@ html {
     box-shadow: none;
 }
 
-.exercise button[data-touched='true'] {
+.exercise button[data-toggled='true'] {
     color: #000;
     -webkit-box-shadow: 1px 2px 1px 1px #0f0;
     box-shadow: 1px 2px 1px 1px #0f0;
