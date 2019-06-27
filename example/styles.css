@@ -375,18 +375,18 @@ html {
     }
 }
 
-.exercise__previewArea [data-preview-slot] {
+.exercise__previewArea [data-answer-slot] {
     background: #fff;
     padding: 0 0.375em;
     margin-right: 0.375em;
     margin-bottom: 0.375em;
 }
 
-.exercise__previewArea [data-preview-slot] + [data-preview-slot] {
+.exercise__previewArea [data-answer-slot] + [data-answer-slot] {
     margin-right: 0.25em;
 }
 
-[data-type='match-pairs'] .exercise__previewArea [data-preview-slot]:nth-of-type(2n-2) {
+[data-type='match-pairs'] .exercise__previewArea [data-answer-slot]:nth-of-type(2n-2) {
     margin-right: 0.75em;
     margin-left: 0;
 }
@@ -442,8 +442,8 @@ html {
 
 .exercise button[data-toggled='true'] {
     color: #000;
-    -webkit-box-shadow: 1px 2px 1px 1px #0f0;
-    box-shadow: 1px 2px 1px 1px #0f0;
+    -webkit-box-shadow: 1px 2px 1px 1px gold;
+    box-shadow: 1px 2px 1px 1px gold;
 }
 
 .exercise button[data-validate] {
@@ -478,6 +478,50 @@ html {
     background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%23F00' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z'/%3E%3C/svg%3E");
     background-size: contain;
 }
+
+/* new css for visual testing */
+
+[data-input="true"]{
+    position: relative;
+}
+
+[data-correct="true"]:before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: -1.25em;
+    left: 0;
+    height: 1em;
+    width: 100%;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%231b741b' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1412 734q0-28-18-46l-91-90q-19-19-45-19t-45 19l-408 407-226-226q-19-19-45-19t-45 19l-91 90q-18 18-18 46 0 27 18 45l362 362q19 19 45 19 27 0 46-19l543-543q18-18 18-45zm252 162q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
+    background-position-x: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+[data-incorrect="true"]:before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: -1em;
+    left: 0;
+    height: 1em;
+    width: 100%;
+    background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='1792' height='1792' fill='%23F00' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z'/%3E%3C/svg%3E");
+    background-position-x: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+[data-answer-slot="true"]{
+    cursor: pointer;
+    position: relative;
+}
+[data-slot-active="true"]{
+    border: dashed 1px gray;
+    user-select: none;
+}
+
+/* end */
 
 .exercise[data-correct='false'] button[data-validate] {
     background: #e00;
@@ -584,4 +628,12 @@ html {
 .toolbar[data-correct='false'] button[data-validate] {
     background: #e00;
     color: #fff;
+}
+
+[data-type="find-pattern"] [data-toggled="true"]{
+    background: gold;
+}
+
+[data-type="find-pattern"] [data-input]{
+    line-height: 2.5;
 }

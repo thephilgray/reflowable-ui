@@ -28,8 +28,8 @@
                         cols="15"></textarea>
                 </div>
                 <div class="exercise__buttonGroup">
-                    <button data-validate="true" data-control="true">Check</button>
-                    <button data-validate="true" data-control="true">Reset</button>
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
                 </div>
             </div>
             <div class="exercise" data-answer="0,1,2" data-key="question-2" data-type="select-many">
@@ -47,8 +47,8 @@
                 </div>
 
                 <div class="exercise__buttonGroup">
-                    <button data-validate="true" data-control="true">Check</button>
-                    <button data-validate="true" data-control="true">Reset</button>
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
                 </div>
             </div>
             <div class="exercise" data-answer="0" data-key="question-3" data-type="select-one">
@@ -63,8 +63,8 @@
                 </div>
 
                 <div class="exercise__buttonGroup">
-                    <button data-validate="true" data-control="true">Check</button>
-                    <button data-validate="true" data-control="true">Reset</button>
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
                 </div>
             </div>
             <div class="exercise" data-answer="0,2,1,7,3,5,4,6" data-key="question-4" data-type="match-pairs">
@@ -75,10 +75,10 @@
                     <div class="exercise__text">Select the matching pairs.</div>
                 </div>
                 <div class="exercise__previewArea">
-                    <span data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
-                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
-                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span><span
-                        data-preview-slot="true">____</span><span data-preview-slot="true">____</span>
+                    <span data-answer-slot="true">____</span><span data-answer-slot="true">____</span><span
+                        data-answer-slot="true">____</span><span data-answer-slot="true">____</span><span
+                        data-answer-slot="true">____</span><span data-answer-slot="true">____</span><span
+                        data-answer-slot="true">____</span><span data-answer-slot="true">____</span>
                 </div>
                 <div class="exercise__inputArea">
                     <button data-input="true">bye</button><button data-input="true">he</button><button
@@ -88,8 +88,8 @@
                 </div>
 
                 <div class="exercise__buttonGroup">
-                    <button data-validate="true" data-control="true">Check</button>
-                    <button data-validate="true" data-control="true">Reset</button>
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
                 </div>
             </div>
             <div class="exercise" data-answer="0,3,2,1" data-key="question-5" data-type="word-order">
@@ -101,10 +101,10 @@
                 </div>
                 <div class="exercise__previewArea">
                     <p>
-                        <span>Qu’est-ce que </span><span data-preview-slot="true">_____</span><span> aimez </span><span
-                            data-preview-slot="true">_____</span><span> pendant </span><span
-                            data-preview-slot="true">_____</span><span> temps </span><span
-                            data-preview-slot="true">_____</span><span>?</span>
+                        <span>Qu’est-ce que </span><span data-answer-slot="true">_____</span><span> aimez </span><span
+                            data-answer-slot="true">_____</span><span> pendant </span><span
+                            data-answer-slot="true">_____</span><span> temps </span><span
+                            data-answer-slot="true">_____</span><span>?</span>
                     </p>
                 </div>
                 <div class="exercise__inputArea">
@@ -113,10 +113,36 @@
                 </div>
 
                 <div class="exercise__buttonGroup">
-                    <button data-validate="true" data-control="true">Check</button>
-                    <button data-validate="true" data-control="true">Reset</button>
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
                 </div>
             </div>
+
+
+            <div class="exercise" data-answer=".?[’|']+\w+" data-key="question-6" data-type="find-pattern">
+                <div class="exercise__instructions">
+                    <p>Find and Select.</p>
+                </div>
+                <div class="exercise__prompt">
+                    <div class="exercise__text">Find all the contracted words in the text below.</div>
+                </div>
+                <div class="exercise__inputArea" data-input="true">
+                    <p>Laissez-moi vous raconter l’histoire d'un Poulet. Ses amis l’appellent Petit Poulet. Petit Poulet
+                        vit dans une petite
+                        maison de poulet normale, dans une petite ville normale.</p>
+                    <p>Il n’est ni grand, ni petit. Il n’est ni gros, ni maigre. Il n’est ni intelligent ni stupide.
+                        Petit Poulet est un poulet
+                        tout à fait normal.</p>
+
+                </div>
+
+                <div class="exercise__buttonGroup">
+                    <button data-validate="true" data-control="true" data-validate-control="true">Check</button>
+                    <button data-validate="true" data-control="true" data-reset-control="true">Reset</button>
+                </div>
+            </div>
+
+
             <div class="toolbar">
                 <p>
                     Score: <span data-total-correct="true">0 </span> of
@@ -127,6 +153,7 @@
             </div>
         </section>
     </section>
+    <script src="./scripts/lodash.custom.min.js"></script>
     <script src="./scripts/reflowable-ui.js" />
     </body>
 
